@@ -1,0 +1,103 @@
+/*mini projrct touchless door bell arduino code .ino file */
+//code1
+
+#include<LiquidCrystal.h> 
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2); // create an lcd 
+int maxC=37; 
+int i; 
+int pirsensor=0; 
+void setup() { 
+lcd.begin(16, 2); // Set the display 
+analogReference(INTERNAL); 
+// analogReference(INTERNAL1V1); If you have an Arduino Mega 
+  pinMode(7,INPUT); 
+  pinMode(8,OUTPUT); 
+  pinMode(9,OUTPUT); 
+lcd.clear(); 
+} 
+void loop() { 
+  pirsensor=digitalRead(7); 
+  if(pirsensor==LOW){ 
+lcd.setCursor(0,0); // set cursor to 
+int sensor = analogRead(0); // read the temp 
+     
+ 
+lcd.clear(); 
+ 
+ 
+lcd.setCursor(0,0); 
+int temp = sensor * 0.1074188; // convert to C 
+ lcd.print(temp); 
+ lcd.write(B11011111); // degree symbol 
+ lcd.print("C "); 
+if (temp<maxC) { 
+          lcd.setCursor(0,1); 
+          lcd.print("You Can Enter"); 
+          for(i=0;i<500;i++){ 
+                digitalWrite(8,HIGH); 
+                digitalWrite(9,HIGH); 
+               } 
+               digitalWrite(8,LOW); 
+                digitalWrite(9,LOW); 
+} 
+ 
+if (temp>=maxC) { 
+          lcd.setCursor(0,1); 
+          lcd.print("You Cannot Enter"); 
+                digitalWrite(8,LOW); 
+                digitalWrite(9,LOW); 
+               } 
+ 
+  } 
+  if(pirsensor==HIGH){ 
+    lcd.clear(); 
+  } 
+}
+
+
+//or code 2 try 1st one not work
+
+#include<LiquidCrystal.h>
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2); // create an lcd
+int maxC=37;
+int pirsensor=0;
+void setup() {
+lcd.begin(16, 2); // Set the display
+analogReference(INTERNAL);
+// analogReference(INTERNAL1V1); If you have an Arduino Mega
+  pinMode(7,INPUT);
+  pinMode(8,OUTPUT);
+  pinMode(9,OUTPUT);
+lcd.clear();
+}
+void loop() {
+  pirsensor=digitalRead(7);
+  if(pirsensor==HIGH){
+lcd.setCursor(0,0); // set cursor to
+int sensor = analogRead(0); // read the temp
+    
+
+lcd.clear();
+
+
+lcd.setCursor(0,0);
+int temp = sensor * 0.1074188; // convert to C
+ lcd.print(temp);
+ lcd.write(B11011111); // degree symbol
+ lcd.print("C ");
+if (temp<maxC) {
+          lcd.setCursor(0,1);
+          lcd.print("You Can Enter");
+                digitalWrite(8,HIGH);
+                digitalWrite(9,HIGH);
+               }
+
+if (temp>maxC) {
+          lcd.setCursor(0,1);
+          lcd.print("You Cannot Enter");
+                digitalWrite(8,LOW);
+                digitalWrite(9,LOW);
+               }
+
+  }
+}
